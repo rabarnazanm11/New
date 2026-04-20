@@ -63,42 +63,37 @@ hiddenLabel:NewLabel("Status: ⚠️ Loading...", {
 
 ---
 
-### 🔘 Button
+###  Button
 
 ```lua
---[[
-    Creates a clickable button with ripple animation.
-    
-    Parameters:
-    1. text (string)           - Button display text
-    2. callback (function)     - Function to run when clicked
-    
-    Returns: Object with methods:
-        :NewButton(newText) - Update button text dynamically
-]]
 
--- Basic button
+-- Basic button (text (string)           - Button display text)
 mainTab:Button("🚀 Teleport to Spawn", function()
-    local character = game.Players.LocalPlayer.Character
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        character.HumanoidRootPart.CFrame = CFrame.new(0, 100, 0)
-        lib:Nof("Teleported! 🎉", 2)  -- Show notification
+    -- ....Function to run when clicked
     end
 end)
 
--- Button with text update capability
+#### methods
+##### Updating Button Text 
+```lua
+        :NewButton(newText) - Update button text dynamically
+
+```
+#### Example 
+```lua
+
 local actionBtn = mainTab:Button("Start Farming", function()
     -- Your farming logic here
     print("Farming started!")
 end)
 
--- Change button text later (e.g., toggle state)
+-- Change button text later 
 actionBtn:NewButton("⏹️ Stop Farming")
 ```
 
 ---
 
-### 🔁 Toggle (Switch)
+###  Toggle (Switch)
 
 ```lua
 --[[
