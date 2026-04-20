@@ -95,36 +95,14 @@ end)
 
 ```lua
 --[[
-    Creates a draggable slider for numeric values.
-    
-    Parameters:
-    1. label (string)        - Text label for the slider
-    2. min (number)          - Minimum value
-    3. max (number)          - Maximum value  
-    4. default (number)      - Starting value (clamped between min/max)
-    5. callback (function)   - Function(val) called when value changes
-    
     Note: Value updates continuously while dragging + on release
 ]]
 
--- Speed slider (1-100, starts at 30)
-mainTab:Slider("🏃 WalkSpeed", 1, 100, 30, function(value)
-    local player = game.Players.LocalPlayer
-    if player and player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.WalkSpeed = value
-    end
+-- ⬇️     label (string) , min (number) , max (number) ,  default (number)
+mainTab:Slider(" WalkSpeed", 1, 100, 30, function(value)
+    
 end)
 
--- Transparency slider (0-1, starts at 0.5)
-mainTab:Slider("🔮 ESP Transparency", 0, 1, 0.5, function(alpha)
-    -- Update ESP part transparency
-    print("Transparency set to: " .. alpha)
-end)
-
--- Damage multiplier (1-10x, starts at 1x)
-mainTab:Slider("⚔️ Damage Multiplier", 1, 10, 1, function(mult)
-    _G.damageMultiplier = mult  -- Store for combat script
-end)
 ```
 
 ---
