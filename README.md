@@ -144,24 +144,14 @@ end)
 
 ---
 
-### ➖ Line Separator
+### ➖ Line / Separator
 
 ```lua
---[[
-    Adds a horizontal divider line for visual organization.
-    
-    Parameters: None
-]]
 
-mainTab:Label("⚙️ Movement Settings")
-mainTab:Slider("Speed", 16, 100, 16, function(v) end)
-mainTab:Slider("Jump", 50, 200, 50, function(v) end)
+ -- Adds a horizontal divider line for visual organization.
 
-mainTab:Line()  -- Visual break
+mainTab:Line()  
 
-mainTab:Label("🎨 Visual Settings")
-mainTab:Toggle("Fullbright", false, function(v) end)
-mainTab:Toggle("Chams", false, function(v) end)
 ```
 
 ---
