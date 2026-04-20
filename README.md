@@ -20,9 +20,9 @@ local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnaza
 ]]
 
 local win = lib:Window(
-    "My Awesome Hub",                    -- Hub title
-    "Adopt Me!",                         -- Target game name
-    Color3.fromRGB(0, 170, 255)          -- Cyan accent color
+    "My Awesome Hub",                    -- Hub title,hub_name (string)      - Title displayed in the top-left of the sidebar
+    "Adopt Me!",                         -- Target game name,game_name (string)     - Game name shown in the top bar
+    Color3.fromRGB(0, 170, 255)          -- Cyan accent color,main_color (Color3)    - Primary accent color for UI elements
 )
 ```
 
