@@ -185,28 +185,6 @@ lib:Nof("✅ Script loaded successfully!", 3)
 
 ---
 
-## 🎨 Advanced Configuration
-
-### Custom Colors
-
-```lua
--- Use predefined Color3 values
-local win = lib:Window("Hub", "Game", Color3.fromRGB(255, 105, 180)) -- Hot Pink
-
--- Use HSB for vibrant colors
-local win = lib:Window("Hub", "Game", Color3.fromHSV(0.6, 0.8, 1)) -- Blue
-
--- Use hex helper (if you have one) or convert manually:
-local function hexToColor(hex)
-    hex = hex:gsub("#","")
-    return Color3.fromRGB(
-        tonumber(hex:sub(1,2), 16),
-        tonumber(hex:sub(3,4), 16),
-        tonumber(hex:sub(5,6), 16)
-    )
-end
-local win = lib:Window("Hub", "Game", hexToColor("#9B59B6")) -- Purple
-```
 
 
 ### Full Example
