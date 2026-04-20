@@ -128,43 +128,18 @@ local weaponDrop = mainTab:Dropdown("🔫 Equip Weapon",
 
 ---
 
-### ⌨️ Textbox (Input Field)
+### Textbox
 
 ```lua
 --[[
-    Creates a single-line text input field.
-    
-    Parameters:
-    1. label (string)         - Prefix text before input box
-    2. placeholder (string)   - Gray hint text shown when empty
-    3. callback (function)    - Function(inputText) called when user presses Enter or clicks away
-    
     Note: Callback fires on FocusLost (when user finishes typing)
 ]]
 
--- Player name search
-mainTab:Textbox("🔍 Find Player", "Enter username...", function(username)
-    if username and username:len() > 0 then
-        print("Searching for: " .. username)
-        -- Implement search logic
-    end
+--               ⬇️ label (string), placeholder (string) ,
+mainTab:Textbox("Find Player", "Enter username...", function(v)
+    
 end)
 
--- Command console
-mainTab:Textbox("💬 Execute Command", "/teleport ...", function(cmd)
-    if cmd:sub(1,1) == "/" then
-        print("Running command: " .. cmd)
-        -- Parse and execute command
-    end
-end)
-
--- Custom value input
-mainTab:Textbox("🎯 Set Jump Power", "e.g., 100", function(val)
-    local num = tonumber(val)
-    if num then
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = num
-    end
-end)
 ```
 
 ---
