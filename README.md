@@ -36,8 +36,10 @@ local settingsTab = win:Tab("🔧 Settings") -- tab_name (string) - Name display
 
 ```lua
 -- Basic usage
-local statusLabel = mainTab:Label("Status: Ready")  -- label_text (string)        - Initial text to display 
+local statusLabel = mainTab:Label("Status: Ready")  -- label_text (string)        - Initial text to display
+```
 #### With custom properties
+
 ```lua
 -- With custom properties //  properties (table, optional) - Table of Roblox TextLabel properties to override
 local hiddenLabel = mainTab:Label("Secret Info", {
