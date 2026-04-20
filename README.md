@@ -76,7 +76,7 @@ end)
 #### methods
 ##### Updating Button Text 
 ```lua
-        :NewButton(newText) - Update button text dynamically
+        :NewButton("newText") - Update button text dynamically
 
 ```
 #### Example 
