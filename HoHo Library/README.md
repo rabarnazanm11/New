@@ -4,7 +4,7 @@
 
 ```lua
 -- Method A: Direct load (if hosted online)
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/HohoLib.lua", true))()
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/HoHo%20Library/src/HohoLib.lua", true))()
 
 
 ```
