@@ -107,48 +107,23 @@ end)
 
 ---
 
-### 📋 Dropdown (Selection List)
+### Dropdown 
 
 ```lua
 --[[
-    Creates an expandable dropdown menu.
-    
-    Parameters:
-    1. label (string)         - Prefix text shown before selected value
-    2. options (table)        - Array of values (strings, numbers, etc.)
-    3. callback (function)    - Function(selectedValue) called on selection
-    
-    Returns: Object with methods:
-        :NewText(newLabel)       - Update the prefix label
-        :NewDrop(newOptionsTable) - Replace dropdown options dynamically
+     methods | 
+        :NewText("newLabel")       - Update the prefix label
+        :NewDrop({"NewOption","1",1,}) - Replace dropdown options dynamically
 ]]
 
--- Weapon selector
+-- ⬇️ label (string) , options (table) - Array of values (strings, numbers, etc.)
 local weaponDrop = mainTab:Dropdown("🔫 Equip Weapon", 
     {"Sword", "Bow", "Magic Staff", "Dual Daggers"}, 
-    function(weapon)
-        print("Equipping: " .. weapon)
-        -- Fire remote or change loadout
+    function(v)
+        
     end
 )
 
--- Update label later
-weaponDrop:NewText("⚔️ Select Melee")
-
--- Replace options dynamically (e.g., based on player level)
-weaponDrop:NewDrop({"Legendary Sword", "Mythic Bow", "Admin Blade"})
-
--- Team selector with numbers
-mainTab:Dropdown("👥 Join Team", 
-    {1, 2, 3, 4, "Spectator"}, 
-    function(teamId)
-        if teamId == "Spectator" then
-            -- Handle spectate logic
-        else
-            -- Join team number
-        end
-    end
-)
 ```
 
 ---
