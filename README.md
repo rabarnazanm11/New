@@ -35,7 +35,9 @@ local settingsTab = win:Tab("🔧 Settings") -- tab_name (string) - Name display
 ```lua
 --[[
 Info | 
-1. Only The Text is Not Optional 
+1. Any Roblox TextLabel property can be passed in the properties table
+
+2. Only The Text is Not Optional 
 so you could do :
 
 local hiddenLabel = mainTab:Label("Secret Info")
@@ -45,8 +47,25 @@ Updating Label |
     :NewLabel(newText, properties?) -- Update text/properties dynamically
     
 ]]
+--                           ⬇️ Text (string)
+local Label = mainTab:Label("Custom Styled", {
 
-local hiddenLabel = mainTab:Label("Secret Info", {Visible = true,TextColor3 = Color3.fromRGB(255, 100, 100),Font = Enum.Font.Code})
+    Font = Enum.Font.GothamBold, -- or Font = Enum.Font.Code
+    TextSize = 18,
+    TextColor3 = Color3.fromRGB(255, 215, 0), 
+    TextStrokeColor3 = Color3.new(0,0,0),
+    TextStrokeTransparency = 0.8,
+    
+
+    TextXAlignment = Enum.TextXAlignment.Center,
+    TextWrapped = true,
+    
+
+    Visible = true,
+    TextTransparency = 0,
+    
+    -- Any other TextLabel property...
+})
 
 ```
 
@@ -189,26 +208,3 @@ end
 local win = lib:Window("Hub", "Game", hexToColor("#9B59B6")) -- Purple
 ```
 
-### Property Overrides for Labels
-
-```lua
--- Any Roblox TextLabel property can be passed in the properties table
-mainTab:Label("Custom Styled", {
-    -- Text properties
-    Font = Enum.Font.GothamBold,
-    TextSize = 18,
-    TextColor3 = Color3.fromRGB(255, 215, 0), -- Gold
-    TextStrokeColor3 = Color3.new(0,0,0),
-    TextStrokeTransparency = 0.8,
-    
-    -- Layout properties
-    TextXAlignment = Enum.TextXAlignment.Center,
-    TextWrapped = true,
-    
-    -- Visibility/animation
-    Visible = true,
-    TextTransparency = 0,
-    
-    -- Any other TextLabel property...
-})
-```
