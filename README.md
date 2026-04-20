@@ -66,29 +66,19 @@ hiddenLabel:NewLabel("Status: ⚠️ Loading...", {
 ###  Button
 
 ```lua
+--[[
+Methods
+Update Button Name | 
 
--- Basic button (text (string)           - Button display text)
-mainTab:Button("🚀 Teleport to Spawn", function()
-    -- ....Function to run when clicked
-    end
-end)
-```
-#### methods
-##### Updating Button Text 
-```lua
-        :NewButton("newText") - Update button text dynamically
+actionBtn:NewButton("Stop Farming") -- Change button text
 
-```
-#### Example 
-```lua
+]]
 
+--                                ⬇️ Button Name
 local actionBtn = mainTab:Button("Start Farming", function()
-    -- Your farming logic here
-    print("Farming started!")
+    print("Farming started!") -- Your Code 
 end)
 
--- Change button text later 
-actionBtn:NewButton("⏹️ Stop Farming")
 ```
 
 ---
