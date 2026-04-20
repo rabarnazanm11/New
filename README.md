@@ -23,10 +23,6 @@ local win = lib:Window(
 ### Step 3: Add a Tab
 
 ```lua
---[[
-    Parameters:
-    1. tab_name (string) - Name displayed on the tab button
-]]
 
 local mainTab = win:Tab("⚙️ Main")  -- tab_name (string) - Name displayed on the tab button
 local settingsTab = win:Tab("🔧 Settings") -- tab_name (string) - Name displayed on the tab button
