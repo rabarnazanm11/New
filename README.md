@@ -394,3 +394,135 @@ startBtn:NewButton("🔄 Restart")
 ```
 
 ---
+## Example 
+```lua
+--[[
+    HoHo UI Library - Complete Example
+    Demonstrates all features with comments
+]]
+
+-- Load library (replace with your actual link)
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/HohoLib.lua", true))()
+
+-- Create main window with cyan theme
+local win = lib:Window(
+    "🌟 ProHub", 
+    "Your Game Here", 
+    Color3.fromRGB(0, 200, 255)
+)
+
+-- ===== TAB 1: Main Features =====
+local main = win:Tab("⚡ Features")
+
+-- Status display
+main:Label("📊 Script Status: ✅ Loaded", {Font = Enum.Font.Code})
+
+-- Action buttons
+main:Button("🔄 Refresh Data", function()
+    print("Refreshing...")
+    lib:Nof("🔄 Data refreshed!", 2)
+end)
+
+main:Button("🎁 Claim Rewards", function()
+    -- Your reward logic
+    lib:Nof("🎉 Rewards claimed!", 3)
+end)
+
+main:Line() -- Separator
+
+-- Toggles
+local autoFarm = main:Toggle("🌾 Auto-Farm Resources", false, function(enabled)
+    if enabled then
+        task.spawn(function()
+            while autoFarm do  -- Note: You'd need proper loop control
+                -- Farming code here
+                task.wait(2)
+            end
+        end)
+    end
+end)
+
+main:Toggle("👁️ ESP Highlights", false, function(val)
+    print("ESP: " .. tostring(val))
+    -- Toggle highlight renderingend)
+
+main:Line()
+
+-- Sliders
+main:Slider("🏃 Movement Speed", 16, 100, 16, function(speed)
+    local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+    if hrp then
+        -- Apply speed (example only - may not work in all games)
+        print("Speed set to: " .. speed)
+    end
+end)
+
+main:Slider("🎨 GUI Transparency", 0, 1, 1, function(alpha)
+    -- You could apply this to your own GUI elements
+    print("GUI Alpha: " .. alpha)
+end)
+
+-- ===== TAB 2: Settings =====
+local settings = win:Tab("🔧 Settings")
+
+-- Dropdowns
+settings:Dropdown("🌍 Select Server Region", 
+    {"US-East", "US-West", "EU", "Asia"}, 
+    function(region)
+        print("Selected region: " .. region)
+        -- Update connection settings
+    end
+):NewText("🌐 Server Location") -- Update label after creation
+
+-- Text inputs
+settings:Textbox("👤 Player ID", "Enter user ID...", function(uid)
+    if tonumber(uid) then
+        print("Targeting player ID: " .. uid)
+    end
+end)
+
+settings:Textbox("💬 Custom Message", "Type message...", function(msg)
+    if msg:len() > 0 then
+        print("Sending: " .. msg)
+    end
+end)
+
+-- Configuration toggles
+settings:Toggle("🔊 Sound Effects", true, function(enabled)
+    -- Toggle audio feedback
+end)
+
+settings:Toggle("📦 Save to File", false, function(enabled)
+    -- Toggle persistent storageend)
+
+-- ===== TAB 3: Info =====
+local info = win:Tab("ℹ️ Info")
+
+info:Label("📦 HoHo UI Library v1.0")
+info:Label("👨‍💻 Created by: YourName")
+info:Label("📅 Last Updated: April 2026")
+
+info:Line()
+
+info:Label("🔗 Links:", {Font = Enum.Font.GothamBold})
+info:Button("🌐 GitHub Repository", function()
+    -- Note: Roblox doesn't allow direct HTTP links in buttons usually
+    -- You'd copy to clipboard or show in a textbox
+    lib:Nof("📋 Link copied to clipboard!", 2)
+end)
+
+info:Button("📜 View Changelog", function()
+    -- Show changelog in a modal or textbox
+    lib:Nof("📜 Changelog opened", 2)
+end)
+
+-- ===== NOTIFICATION TEST =====
+task.delay(3, function()
+    lib:Nof("👋 Welcome to ProHub!", 4)
+end)
+end)
+
+-- ===== GLOBAL ACCESS EXAMPLE =====
+-- Other scripts can now access: _G.hoho:Nof("msg", 2)
+end)
+```
