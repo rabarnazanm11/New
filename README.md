@@ -72,7 +72,7 @@ mainTab:Button("🚀 Teleport to Spawn", function()
     -- ....Function to run when clicked
     end
 end)
-
+```
 #### methods
 ##### Updating Button Text 
 ```lua
