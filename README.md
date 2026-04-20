@@ -35,30 +35,21 @@ local settingsTab = win:Tab("🔧 Settings") -- tab_name (string) - Name display
 ### 📝 Label (Static Text)
 
 ```lua
--- Basic usage
-local statusLabel = mainTab:Label("Status: Ready")  -- label_text (string)        - Initial text to display
-```
-#### With custom properties
+--[[
+Info | 
+1. Only The Text is Not Optional 
+so you could do :
 
-```lua
--- With custom properties //  properties (table, optional) - Table of Roblox TextLabel properties to override
-local hiddenLabel = mainTab:Label("Secret Info", {
-    Visible = false,
-    TextColor3 = Color3.fromRGB(255, 100, 100),
-    Font = Enum.Font.Code
-})
-```
-### Methods 
-#### Updating Label 
-```lua
-        :NewLabel(newText, properties?) -- Update text/properties dynamically
-```
-#### Example 
- ```lua
-hiddenLabel:NewLabel("Status: ⚠️ Loading...", {
-    Visible = true,
-    TextTransparency = 0
-})
+local hiddenLabel = mainTab:Label("Secret Info")
+
+
+Updating Label | 
+    :NewLabel(newText, properties?) -- Update text/properties dynamically
+    
+]]
+
+local hiddenLabel = mainTab:Label("Secret Info", {Visible = true,TextColor3 = Color3.fromRGB(255, 100, 100),Font = Enum.Font.Code})
+
 ```
 
 ---
