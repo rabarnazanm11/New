@@ -12,12 +12,6 @@ local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnaza
 ### Step 2: Create Your Window
 
 ```lua
---[[
-    Parameters:
-    1. hub_name (string)      - Title displayed in the top-left of the sidebar
-    2. game_name (string)     - Game name shown in the top bar
-    3. main_color (Color3)    - Primary accent color for UI elements
-]]
 
 local win = lib:Window(
     "My Awesome Hub",                    -- Hub title,hub_name (string)      - Title displayed in the top-left of the sidebar
