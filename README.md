@@ -4,13 +4,9 @@
 
 ```lua
 -- Method A: Direct load (if hosted online)
-local lib = loadstring(game:HttpGet("YOUR_HOSTED_LINK_HERE", true))()
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/HohoLib.lua", true))()
 
--- Method B: If saved in ReplicatedStorage or ModuleScript
--- local lib = require(script.HoHoLibrary)
 
--- Method C: Access via global (if already loaded)
--- local lib = _G.hoho
 ```
 
 ### Step 2: Create Your Window
