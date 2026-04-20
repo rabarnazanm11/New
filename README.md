@@ -156,28 +156,12 @@ mainTab:Line()
 
 ---
 
-## 🔔 Notifications
+## Notifications
 
 ```lua
---[[
-    Shows an animated toast notification.
-    
-    Parameters:
-    1. message (string) - Text to display
-    2. duration (number) - How long to show (in seconds)
-]]
-
--- Simple notification
+--        ⬇️ message (string) ,  duration (number)
 lib:Nof("✅ Script loaded successfully!", 3)
 
--- Error notification
-lib:Nof("❌ Failed to connect to server", 5)
-
--- Usage in callbacks
-mainTab:Button("Save Settings", function()
-    -- Save logic here
-    lib:Nof("💾 Settings saved!", 2)
-end)
 ```
 
 ---
