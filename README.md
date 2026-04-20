@@ -1,6 +1,6 @@
-## 🚀 Quick Start
+##  Quick Start
 
-### Step 1: Load the Library
+### Library
 
 ```lua
 -- Method A: Direct load (if hosted online)
@@ -9,7 +9,7 @@ local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnaza
 
 ```
 
-### Step 2: Create Your Window
+### Create Window
 
 ```lua
 
@@ -20,7 +20,7 @@ local win = lib:Window(
 )
 ```
 
-### Step 3: Add a Tab
+### Tab
 
 ```lua
 
@@ -30,9 +30,7 @@ local settingsTab = win:Tab("🔧 Settings") -- tab_name (string) - Name display
 
 ---
 
-## 🧩 UI Elements Reference
-
-### 📝 Label (Static Text)
+### Label
 
 ```lua
 --[[
@@ -54,7 +52,7 @@ local hiddenLabel = mainTab:Label("Secret Info", {Visible = true,TextColor3 = Co
 
 ---
 
-###  Button
+### Button
 
 ```lua
 --[[
@@ -74,7 +72,7 @@ end)
 
 ---
 
-###  Toggle (Switch)
+### Toggle
 
 ```lua
 --[[
@@ -93,7 +91,7 @@ end)
 
 ---
 
-### 🎚️ Slider (Range Selector)
+### Slider
 
 ```lua
 --[[
