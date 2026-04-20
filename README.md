@@ -97,39 +97,17 @@ actionBtn:NewButton("⏹️ Stop Farming")
 
 ```lua
 --[[
-    Creates an on/off toggle switch.
-    
-    Parameters:
-    1. toggle_text (string)    - Label text next to the switch
-    2. default_state (boolean) - Initial state: true = ON, false = OFF
-    3. callback (function)     - Function(val) called when state changes
-    
-    Returns: Object with methods:
-        :NewText(newText)  - Update the label text
+Methods | 
+
+        :NewText(newText)  - Update the Toggle text
         :NewState(boolean) - Programmatically change toggle state
 ]]
 
--- Basic toggle
-local autoCollect = mainTab:Toggle("🧲 Auto-Collect Coins", false, function(enabled)
-    if enabled then
-        print("Auto-collect ENABLED")
-        -- Start collection loop
-    else
-        print("Auto-collect DISABLED")
-        -- Stop collection loop
-    end
+--                                  ⬇️toggle_text (string),default_state
+local autoCollect = mainTab:Toggle("Auto-Collect Coins", false, function(v)
+    -- Your Logic 
 end)
 
--- Toggle with dynamic updates
-local espToggle = mainTab:Toggle("ESP Wallhack", false, function(val)
-    -- Toggle ESP rendering
-end)
-
--- Update label text (e.g., for localization)
-espToggle:NewText("👁️ See Through Walls")
-
--- Change state programmatically (e.g., from another script)
-espToggle:NewState(true)  -- Turns toggle ON and fires callback
 ```
 
 ---
