@@ -1,0 +1,1127 @@
+-- PullASword
+
+local WindUI
+local attempts = 0
+repeat
+    attempts = attempts + 1
+    local ok, result = pcall(function()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/WindUiBoreal/Source.lua"))()
+    end)
+    if ok then WindUI = result end
+    if not WindUI then task.wait(1) end
+until WindUI or attempts >= 5
+
+assert(WindUI, "Failed to load WindUI after 5 attempts")
+
+local Window = WindUI:CreateWindow({
+    Title = "My Script ",
+    Size = UDim2.fromOffset(740, 560),
+    Icon = "house",           -- Lucide icon name
+    ModernLayout = true,
+    Watermark = {
+        Enabled = true,
+        Text = "My Hub | v1.0",
+        Opacity = 0.45,
+        Position = "bottom-right", -- top-left / top-center / top-right / center / bottom-left / bottom-center / bottom-right
+        Size = 14,
+        Padding = 12,
+        Offset = Vector2.new(0, 0),
+        Color = Color3.fromRGB(58, 134, 255), -- optional
+        RichText = true,                      -- optional
+    },
+})
+-- Static label
+Window:SideBarLabel({ Title = "Player Settings" })
+
+-- Clickable button
+Window:SideBarButton({
+    Title = "Use JumpPower",
+    Icon = "arrow-big-up-dash",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = true
+    end,
+})
+Window:SideBarButton({
+    Title = "Use JumpHeight",
+    Icon = "rabbit",
+    Callback = function()
+        game.Players.LocalPlayer.Character.Humanoid.UseJumpPower = false
+    end,
+})
+-- Static label
+Window:SideBarLabel({ Title = "Boss Fight " })
+
+-- Clickable button
+Window:SideBarButton({
+    Title = "Start Fighting ",
+    Icon = "play",
+    Callback = function()
+
+WindUI:Notify({Title = "Notification",Content = "Boss Fight Started ",Icon = "play",Duration = 5,})
+
+
+local args = {
+	1
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Events"):WaitForChild("RemoveC"):FireServer(unpack(args))
+
+
+
+
+    end,
+})
+Window:SideBarButton({
+    Title = "Stop Fighting ",
+    Icon = "mouse-pointer-2-off",
+    Callback = function()
+        WindUI:Notify({Title = "Notification",Content = "Boss Fight Stopped ",Icon = "mouse-pointer-2-off",Duration = 5,})
+local args = {
+	0
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Events"):WaitForChild("RemoveC"):FireServer(unpack(args))
+
+
+
+    end,
+})
+local NormalBossDrop  -- forward declare up here
+
+local bossesNew = {}
+Window:SideBarButton({
+    Title = "Refresh Dropdown Normal Boss",
+    Icon = "refresh-ccw",
+    Callback = function()
+        local bossesNew = {}
+        local seen = {}
+        for _, v in pairs(workspace.Mobs["1"]:GetChildren()) do
+            if not seen[v.Name] then
+                seen[v.Name] = true
+                table.insert(bossesNew, v.Name)
+            end
+        end
+        NormalBossDrop:Refresh(bossesNew)  -- now it can see it
+        WindUI:Notify({Title = "Notification", Content = "Bosses Refreshed", Icon = "refresh-ccw", Duration = 5})
+    end,
+})
+Window:SideBarButton({
+    Title = "Free Gamepasses ",
+    Icon = "badge-dollar-sign",
+    Callback = function()
+        game:GetService("Players").LocalPlayer.SkipTimerGP.Value = true
+        game:GetService("Players").LocalPlayer.x5Exp.Value = true
+        game:GetService("Players").LocalPlayer.x2Potions.Value = true
+        game:GetService("Players").LocalPlayer.x3Wins.Value = true
+        game:GetService("Players").LocalPlayer.x5Energy.Value = true
+        game:GetService("Players").LocalPlayer.x2Clicks.Value = true
+        game:GetService("Players").LocalPlayer.x2Pieces.Value = true
+        game:GetService("Players").LocalPlayer.x3Clicks.Value = true
+        game:GetService("Players").LocalPlayer.x2Shiny.Value = true
+        game:GetService("Players").LocalPlayer.x2Scissors.Value = true
+        game:GetService("Players").LocalPlayer.x2Rock.Value = true
+        game:GetService("Players").LocalPlayer.x2Rings.Value = true
+        game:GetService("Players").LocalPlayer.x2PowerEggs.Value = true
+        
+        game:GetService("Players").LocalPlayer.x100Shiny.Value = true
+        game:GetService("Players").LocalPlayer.x2Books.Value = true
+        game:GetService("Players").LocalPlayer.x100Golden.Value = true
+        game:GetService("Players").LocalPlayer.x100Emerald.Value = true
+        game:GetService("Players").LocalPlayer.X2ITEMDTOP.Value = true
+        game:GetService("Players").LocalPlayer.x2Exp.Value = true
+        game:GetService("Players").LocalPlayer.x2EventCoins.Value = true
+        game:GetService("Players").LocalPlayer.x2Emerald.Value = true
+        game:GetService("Players").LocalPlayer.x2Damage.Value = true
+        game:GetService("Players").LocalPlayer.x2Credits.Value = true
+        
+        WindUI:Notify({Title = "Free Gamepasses ",Content = "Not All Might Work ",Icon = "circle-dollar-sign",Duration = 5,})
+
+
+
+
+    end,
+})
+local aa = nil
+
+local MyTab = Window:Tab({
+    Title = "Player Settings",
+    Icon = "user-round-pen",
+})
+MyTab:Space({})
+local MultiSection = MyTab:MultiSection({
+    Title = "Player Attributes",
+    Desc = "Change As How You Like ",
+    Icon = "user-round-pen",
+    Box = true,
+    BoxBorder = true,
+    Opened = true,
+    Locked = false,
+    LockedTitle = "MultiSection",
+})
+
+-- Create internal tabs
+local TabA = MultiSection:Tab({
+    Title = "WalkSpeed ",
+    Icon = "chevrons-up",
+    Selected = true,   -- active by default
+})
+
+local TabB = MultiSection:Tab({
+    Title = "Jump",
+    Icon = "rabbit",
+})
+local Tabc = MultiSection:Tab({
+    Title = "Others",
+    Icon = "camera",
+})
+
+
+-- TabA Elements
+TabA:Slider({ 
+  Title = "WalkSpeed",
+  Value = { Min = 20, Max = 500, Default = 80 } ,
+  Callback = function(v)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v 
+        
+        
+    end,
+})
+TabA:Space({})
+TabA:Input({
+    Title = "WalkSpeed ",
+    Desc = "Use This If you want WalkSpeed More than 500 ",
+    Value = 80,
+    Placeholder = "Default : 16",
+    Callback = function(v)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v 
+        
+    end,
+})
+TabA:Space({})
+
+local BK = TabA:ButtonKeybind({
+    Title = "WalkSpeed",
+    Desc = "Set WalkSpeed : 200",
+    Icon = "footprints",
+    IconThemed = true,
+    Color = Color3.fromRGB(0, 170, 255),
+    Justify = "Between",
+    IconAlign = "Right",
+    Value = Enum.KeyCode.S,  -- default keybind
+    CanChange = true,
+    Locked = false,
+    LockedTitle = "Action",
+    Callback = function(trigger)
+      
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 200
+    end,
+})
+
+
+-- TabB Elements
+TabB:Slider({
+    Title = "JumpPower",
+    Desc = "Sets Character JumpPower to The value",
+    Value = { Min = 50, Max = 500, Default = 50 },
+    Callback = function(v)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = v 
+        
+        
+    end,
+})
+TabB:Space({})
+
+TabB:Slider({
+    Title = "JumpHeight",
+    Desc = "Sets Character JumpHeight to The value",
+    Value = { Min = 7.2, Max = 150, Default = 7.2 },
+    Callback = function(v)
+        game.Players.LocalPlayer.Character.Humanoid.JumpHeight = v 
+        
+        
+    end,
+})
+TabB:Space({})
+TabB:Slider({
+    Title = "HipHeight",
+    Desc = "Sets Character HipHeight to The value",
+    Value = { Min = 1.9980254173278809, Max = 100, Default = 1.9980254173278809 },
+    Callback = function(v)
+        game.Players.LocalPlayer.Character.Humanoid.HipHeight = v 
+        
+        
+    end,
+})
+-- // Tabc Elements
+Tabc:Space({})
+Tabc:Slider({
+    Title = "CameraMaxZoomDistance",
+    Desc = "Sets LocalPlayer CameraMaxZoomDistance to The value",
+    Value = { Min = 120, Max = 2000, Default = 120 },
+    Callback = function(v)
+        game:GetService("Players").LocalPlayer.CameraMaxZoomDistance = v
+    end,
+})
+Tabc:Space({})
+-- // Noclip
+local NoclipEnabled = false
+local NoclipConn
+
+Tabc:Toggle({
+    Title = "Noclip",
+    Desc = "Walk through walls",
+    Value = false,
+    Callback = function(value)
+        NoclipEnabled = value
+        if NoclipEnabled then
+            NoclipConn = game:GetService("RunService").Stepped:Connect(function()
+                local char = game.Players.LocalPlayer.Character
+                if char then
+                    for _, part in ipairs(char:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+            end)
+            WindUI:Notify({
+                Title = "Noclip",
+                Content = "Enabled - You can walk through walls",
+                Icon = "ghost",
+                Duration = 2,
+            })
+        else
+            if NoclipConn then
+                NoclipConn:Disconnect()
+                NoclipConn = nil
+            end
+            -- Re-enable collision
+            local char = game.Players.LocalPlayer.Character
+            if char then
+                for _, part in ipairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
+            WindUI:Notify({
+                Title = "Noclip",
+                Content = "Disabled - Collision restored",
+                Icon = "shield",
+                Duration = 2,
+            })
+        end
+    end,
+})
+
+Tabc:Space({})
+
+-- // Infinite Jump
+local IJConn
+
+Tabc:Toggle({
+    Title = "Infinite Jump",
+    Desc = "Jump while in the air",
+    Value = false,
+    Callback = function(value)
+        if value then
+            IJConn = game:GetService("UserInputService").JumpRequest:Connect(function()
+                local hum = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+                if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
+            end)
+            WindUI:Notify({
+                Title = "Infinite Jump",
+                Content = "Enabled - Jump anytime!",
+                Icon = "arrow-up",
+                Duration = 2,
+            })
+        else
+            if IJConn then
+                IJConn:Disconnect()
+                IJConn = nil
+            end
+            WindUI:Notify({
+                Title = "Infinite Jump",
+                Content = "Disabled",
+                Icon = "x",
+                Duration = 2,
+            })
+        end
+    end,
+})
+
+Tabc:Space({})
+-- // Native Fly V3 Integration
+local FlyEnabled = false
+local FlySpeed = 1
+local FlyConnection
+
+Tabc:Toggle({
+    Title = "Fly (V3 Logic)",
+    Desc = "Toggle Fly on/off",
+    Value = false,
+    Callback = function(state)
+        FlyEnabled = state
+        local speaker = game:GetService("Players").LocalPlayer
+        local chr = speaker.Character
+        local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+        if not chr or not hum then return end
+
+        if FlyEnabled then
+            -- Enable Fly
+            if chr:FindFirstChild("Animate") then
+                chr.Animate.Disabled = true
+            end
+            for i,v in next, hum:GetPlayingAnimationTracks() do
+                v:AdjustSpeed(0)
+            end
+
+            hum:SetStateEnabled(Enum.HumanoidStateType.Climbing,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Flying,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.GettingUp,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Jumping,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Landed,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Physics,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.PlatformStanding,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Ragdoll,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Running,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.RunningNoPhysics,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Seated,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.StrafingNoPhysics,false)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Swimming,false)
+            hum:ChangeState(Enum.HumanoidStateType.Swimming)
+
+            local root = chr:FindFirstChild("HumanoidRootPart") or chr:FindFirstChild("Torso") or chr:FindFirstChild("UpperTorso")
+            if root then
+                local bg = Instance.new("BodyGyro")
+                bg.Name = "FlyV3_BG"
+                bg.P = 9e4
+                bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                bg.cframe = root.CFrame
+                bg.Parent = root
+                
+                local bv = Instance.new("BodyVelocity")
+                bv.Name = "FlyV3_BV"
+                bv.velocity = Vector3.new(0,0.1,0)
+                bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                bv.Parent = root
+                
+                hum.PlatformStand = true
+                
+                FlyConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                    if not FlyEnabled or hum.Health <= 0 then return end
+                    
+                    if hum.MoveDirection.Magnitude > 0 then
+                        chr:TranslateBy(hum.MoveDirection * (FlySpeed * 0.5)) 
+                    end
+                    
+                    -- Keeps character upright and suspended
+                    bg.cframe = workspace.CurrentCamera.CoordinateFrame
+                    bv.velocity = Vector3.new(0, 0.1, 0)
+                end)
+            end
+            
+            WindUI:Notify({ Title = "Fly V3", Content = "Fly Enabled", Icon = "plane-takeoff", Duration = 2 })
+        else
+            -- Disable Fly
+            hum.PlatformStand = false
+            if chr:FindFirstChild("Animate") then
+                chr.Animate.Disabled = false
+            end
+            
+            hum:SetStateEnabled(Enum.HumanoidStateType.Climbing,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.FallingDown,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Flying,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Freefall,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.GettingUp,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Jumping,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Landed,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Physics,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.PlatformStanding,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Ragdoll,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Running,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.RunningNoPhysics,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Seated,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.StrafingNoPhysics,true)
+            hum:SetStateEnabled(Enum.HumanoidStateType.Swimming,true)
+            hum:ChangeState(Enum.HumanoidStateType.RunningNoPhysics)
+
+            if FlyConnection then
+                FlyConnection:Disconnect()
+                FlyConnection = nil
+            end
+            
+            for _, v in pairs(chr:GetDescendants()) do
+                if v.Name == "FlyV3_BV" or v.Name == "FlyV3_BG" then
+                    v:Destroy()
+                end
+            end
+            
+            WindUI:Notify({ Title = "Fly V3", Content = "Fly Disabled", Icon = "plane-landing", Duration = 2 })
+        end
+    end,
+})
+
+Tabc:Space({})
+
+Tabc:Slider({
+    Title = "Fly Speed",
+    Desc = "Adjust the speed of Fly V3",
+    Value = { Min = 1, Max = 10, Default = 1 },
+    Callback = function(v)
+        FlySpeed = v
+    end,
+})
+
+Tabc:Space({})
+
+-- End of Fly V3 Integration
+
+MyTab:Space({})
+MyTab:Button({
+    Title = "Copy Players Thingy :)",
+    Desc = "Click to copy The Player Vars to clipboard",
+    Icon = "clipboard-copy",
+    Callback = function()
+    local LocalPlayer = game:GetService("Players").LocalPlayer
+    local Character = LocalPlayer.Character
+    local Char = Character:FindFirstChild("HumanoidRootPart")
+
+    local dd = [[
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Character = LocalPlayer.Character
+local Char = Character:FindFirstChild("HumanoidRootPart")
+]]
+
+    setclipboard(dd)
+
+    WindUI:Notify({
+        Title = "Copied!",
+        Content = "Player vars copied!",
+        Icon = "clipboard-check",
+        Duration = 3,
+    })
+end,
+})
+MyTab:Button({
+    Title = "Copy Game PlaceId",
+    Desc = "Click to copy PlaceId to clipboard",
+    Icon = "clipboard-copy",
+    Callback = function()
+        local placeId = tostring(game.PlaceId)
+        setclipboard(placeId)
+
+        WindUI:Notify({
+            Title = "Copied!",
+            Content = "PlaceId copied: " .. placeId,
+            Icon = "clipboard-check",
+            Duration = 3,
+        })
+    end,
+})
+MyTab:Space({})
+MyTab:Button({
+    Title = "Copy Game Name",
+    Desc = "Gets the real game name",
+    Icon = "clipboard-copy",
+    Callback = function()
+        local mps = game:GetService("MarketplaceService")
+        local ok, info = pcall(function()
+            return mps:GetProductInfo(game.PlaceId)
+        end)
+
+        if ok then
+            local name = info.Name
+            setclipboard(name)
+            WindUI:Notify({
+                Title = "Copied!",
+                Content = "Game: " .. name,
+                Icon = "clipboard-check",
+                Duration = 3,
+            })
+        else
+            WindUI:Notify({
+                Title = "Failed",
+                Content = "Could not fetch game name",
+                Icon = "x",
+                Duration = 3,
+            })
+        end
+    end,
+})
+
+MyTab:Space({})
+MyTab:Input({
+    Title = "CFrame",
+    Desc = "CFrame or WorldPivot(Position)",
+    Value = "",
+    Placeholder = "Type here...",
+    Callback = function(v)
+         aa = v
+        
+    end,
+})
+MyTab:Space({})
+MyTab:Button({
+    Title = "Teleport",
+    Desc = "Teleport to location That You Type in The Input",
+    Icon = "map-pin",
+    Callback = function()
+        local Character = game:GetService("Players").LocalPlayer.Character
+        if not Character then
+            WindUI:Notify({ Title = "Error", Content = "Character not loaded!", Icon = "x", Duration = 3 })
+            return
+        end
+
+        local HRP = Character:FindFirstChild("HumanoidRootPart")
+        if not HRP then
+            WindUI:Notify({ Title = "Error", Content = "HumanoidRootPart not found!", Icon = "x", Duration = 3 })
+            return
+        end
+
+        if not aa or aa == "" then
+            WindUI:Notify({ Title = "Error", Content = "No CFrame entered!", Icon = "x", Duration = 3 })
+            return
+        end
+
+        -- Extract all numbers from the string
+        local nums = {}
+        for n in aa:gmatch("[%-]?%d+%.?%d*e?[%-]?%d*") do
+            table.insert(nums, tonumber(n))
+        end
+
+        local cf
+        if #nums == 3 then
+            -- Just X Y Z position
+            cf = CFrame.new(nums[1], nums[2], nums[3])
+        elseif #nums == 12 then
+            -- Full CFrame with rotation matrix
+            cf = CFrame.new(nums[1], nums[2], nums[3], nums[4], nums[5], nums[6], nums[7], nums[8], nums[9], nums[10], nums[11], nums[12])
+        else
+            WindUI:Notify({ Title = "Error", Content = "Invalid CFrame! Use 3 or 12 numbers.", Icon = "x", Duration = 3 })
+            return
+        end
+
+        HRP.CFrame = cf
+        WindUI:Notify({ Title = "Success", Content = "Teleported!", Icon = "check", Duration = 2 })
+    end,
+})
+MyTab:Space({})
+MyTab:Button({
+    Title = "Load a Script ",
+    Desc = "Load Copy CFrame Script ",
+    Icon = "mouse-pointer-click",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/rabarnazanm11/glowing-waffle/refs/heads/main/CooyCFrame"))()
+    end,
+})
+
+
+
+-- Pull A Sword 
+
+
+
+ local Notevent = nil
+ local Selected = nil
+ local win1 = false
+ local win = false
+ local WAITED = nil
+local bosses  = {}
+local seen  = {}
+for _, v in pairs(workspace.Mobs["1"]:GetChildren()) do
+if not seen[v.Name] then 
+  seen[v.Name] = true
+  table.insert(bosses, v.Name)
+end
+end
+local PullASword = Window:Tab({
+    Title = "Event ",
+    Icon = "swords",
+})
+PullASword:Space({})
+local PullASwordSection = PullASword:Section({
+    Title = "Fight Bosses ",
+    Desc = "1 - 6",
+    Icon = "layers",
+    Box = true,
+    BoxBorder = true,
+    Opened = true,
+    Locked = false,          -- set true to lock initially
+    LockedTitle = "Section Title",
+})
+
+-- Add elements inside the section
+
+PullASwordSection:Slider({
+    Title = "Swing Speed ",
+    Desc = "Optional description",
+    Value = { Min = 0, Max = 2000, Default = 50 },
+    Callback = function(v)
+        game:GetService("Players").LocalPlayer.SwingValue.Value = v
+    end,
+})
+PullASwordSection:Dropdown({
+    Title = "Select Event Boss",
+    Desc = "The Lower Number The weaker Boss ",
+    Values = { "1", "2", "3","4","5","6" },
+    Value = "1",        -- default selection
+    Callback = function(v)
+        Selected = v
+        print(Selected)
+    end,
+})
+PullASwordSection:Toggle({
+    Title = "Auto Win Event ",
+    Desc = "Optional description",
+    Value = false,           -- default state
+    Callback = function(v)
+        win = v
+        if win then
+          while win do
+game:GetService("ReplicatedStorage"):WaitForChild("EventFolder"):WaitForChild("WinBossEvent"):FireServer(tostring(Selected))
+task.wait(tonumber(WAITED))
+end 
+end 
+    end,
+})
+ NormalBossDrop = PullASwordSection:Dropdown({
+    Title = "Select Normal Wolrd Boss",
+    Desc = "The Lower Number The weaker Boss ",
+    Values = bosses,
+    Value = bosses[1],        -- default selection
+    Callback = function(v)
+        Notevent = v
+        print(Notevent)
+    end,
+})
+PullASwordSection:Toggle({
+    Title = "Auto Win Normal Wolrd ",
+    Desc = "Optional description",
+    Value = false,           -- default state
+    Callback = function(v)
+        win1 = v
+        if win1 then
+          while win1 do
+local args = {
+	tostring(Notevent)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Events"):WaitForChild("WinEvent"):FireServer(unpack(args))
+
+
+task.wait(tonumber(WAITED))
+end 
+end 
+    end,
+})
+
+PullASwordSection:Slider({
+    Title = "Auto Win Delay / Seconds",
+    Desc = "Lower = Faster ",
+    Value = { Min = 0, Max = 20, Default = 3 },
+    Callback = function(v)
+      
+        
+       WAITED  = v
+        
+        
+    end,
+})
+-------------------------------------------------------------
+--          EVENT 999 SECTION
+-------------------------------------------------------------
+
+local Event9999 = PullASword:Section({
+    Title = "Event 999",
+    Desc = "All Event 999 features in one place",
+    Icon = "layers",
+    Box = true,
+    BoxBorder = true,
+    Opened = true,
+    Locked = false,
+    LockedTitle = "Section Title",
+})
+
+-------------------------------------------------------------
+--          STATE VARIABLES
+-------------------------------------------------------------
+
+local Selected_Sword_event999 = nil   -- currently selected sword event
+local event999Swoeds = false          -- auto win swords toggle state
+local WAITED1 = 2.5                   -- delay between sword win fires
+
+local clickEvent_Celestial = false    -- auto click toggle state
+local waiting = 0                     -- delay between click fires
+
+local mobevent = nil                  -- currently selected mob name
+local WinMobe = false                 -- auto win mob toggle state
+local dd = 4.5                        -- delay between mob win fires
+
+local flyorb = false                  -- auto fly orb toggle state
+local Craft = false                   -- auto craft toggle state
+local Craft3 = false                   -- auto craft toggle state
+local Craft2 = false                   -- auto craft toggle state
+
+-------------------------------------------------------------
+--          CACHED REMOTES
+-------------------------------------------------------------
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local WinEventRemote     = ReplicatedStorage:WaitForChild("EventFolder"):WaitForChild("WinEvent")
+local WinBossRemote      = ReplicatedStorage:WaitForChild("EventFolder"):WaitForChild("WinBossEvent")
+local ClickEventRemote   = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Events"):WaitForChild("ClickEvent")
+local CraftEventRemote   = ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("Events"):WaitForChild("OnCraftingEvent")
+
+-------------------------------------------------------------
+--          HELPER FUNCTIONS
+-------------------------------------------------------------
+
+-- Returns the player's HumanoidRootPart, or nil if not found
+local function GetHRP()
+    local char = Players.LocalPlayer.Character
+    if not char then return nil end
+    return char:FindFirstChild("HumanoidRootPart")
+end
+
+-------------------------------------------------------------
+--          SWORD SECTION
+-------------------------------------------------------------
+
+-- Dropdown: pick which sword event to win (lower number = weaker boss)
+Event9999:Dropdown({
+    Title = "Select Event Sword",
+    Desc = "Choose which sword event boss to defeat. Lower number = weaker boss.",
+    Values = { "1731", "1732" },
+    Value = "1731",
+    Callback = function(v)
+        Selected_Sword_event999 = v
+    end,
+})
+
+-- Toggle: auto fires WinEvent for the selected sword repeatedly
+Event9999:Toggle({
+    Title = "Auto Win Event Swords",
+    Desc = "Automatically fires the win event for the selected sword boss on repeat.",
+    Value = false,
+    Callback = function(v)
+        event999Swoeds = v
+        if event999Swoeds then
+            while event999Swoeds do
+                WinEventRemote:FireServer(tostring(Selected_Sword_event999))
+                task.wait(tonumber(WAITED1))
+            end
+        end
+    end,
+})
+
+-- Slider: how fast the player swings
+Event9999:Slider({
+    Title = "Swing Speed",
+    Desc = "Sets the player's swing speed value. Higher = faster swings.",
+    Value = { Min = 0, Max = 2000, Default = 50 },
+    Callback = function(v)
+        Players.LocalPlayer.SwingValue.Value = v
+    end,
+})
+
+-- Slider: controls the delay between each auto win sword fire
+Event9999:Slider({
+    Title = "Auto Win Sword Delay (Seconds)",
+    Desc = "How long to wait between each sword win fire. Lower = faster.",
+    Value = { Min = 0, Max = 7, Default = 2.5 },
+    Callback = function(v)
+        WAITED1 = v
+    end,
+})
+
+-------------------------------------------------------------
+--          CLICK SECTION
+-------------------------------------------------------------
+
+-- Toggle: auto fires ClickEvent repeatedly
+Event9999:Toggle({
+    Title = "Auto Click Event",
+    Desc = "Automatically fires the click event remote on repeat.",
+    Value = false,
+    Callback = function(v)
+        clickEvent_Celestial = v
+        if clickEvent_Celestial then
+            while clickEvent_Celestial do
+                ClickEventRemote:FireServer()
+                task.wait(tonumber(waiting))
+            end
+        end
+    end,
+})
+
+-- Slider: delay between each click fire
+Event9999:Slider({
+    Title = "Auto Click Delay (Seconds)",
+    Desc = "How long to wait between each click fire. Set to 0 for fastest speed.",
+    Value = { Min = 0, Max = 100, Default = 0 },
+    Callback = function(v)
+        waiting = v
+    end,
+})
+
+-------------------------------------------------------------
+--          MOB SECTION
+-------------------------------------------------------------
+
+-- Build mob list from workspace, no duplicates
+local MobNames = {}
+local MobFilter = {}
+for _, v in pairs(workspace.SystemObjects.CelestialEvent2026.MobFolder:GetChildren()) do
+    if not MobFilter[v.Name] then
+        MobFilter[v.Name] = true
+        table.insert(MobNames, v.Name)
+    end
+end
+mobevent = MobNames[1]
+
+-- Dropdown: pick which mob to auto win against
+Event9999:Dropdown({
+    Title = "Select Mob",
+    Desc = "Choose which mob boss to auto win against.",
+    Values = MobNames,
+    Value = MobNames[1],
+    Callback = function(v)
+        mobevent = v
+    end,
+})
+
+-- Toggle: auto fires WinBossEvent for the selected mob
+Event9999:Toggle({
+    Title = "Auto Win Mob Event",
+    Desc = "Automatically fires the win boss event for the selected mob on repeat.",
+    Value = false,
+    Callback = function(v)
+        WinMobe = v
+        if WinMobe then
+            while WinMobe do
+                WinBossRemote:FireServer(tostring(mobevent))
+                task.wait(tonumber(dd))
+            end
+        end
+    end,
+})
+
+-- Slider: delay between each mob win fire
+Event9999:Slider({
+    Title = "Auto Win Mob Delay (Seconds)",
+    Desc = "Delay between each mob win fire. Only set to 0 if your strength is 5x the mob's.",
+    Value = { Min = 0, Max = 7, Default = 4.5 },
+    Callback = function(v)
+        dd = v
+    end,
+})
+
+-------------------------------------------------------------
+--          FLY ORB SECTION
+-------------------------------------------------------------
+
+-- Toggle: teleports the player between 3 orb points in a loop
+Event9999:Toggle({
+    Title = "Auto Fly Orb",
+    Desc = "Teleports your character between the 3 event orb locations automatically.",
+    Value = false,
+    Callback = function(v)
+        flyorb = v
+        if flyorb then
+            task.spawn(function()
+                while flyorb do
+                    local hrp = GetHRP()
+                    if hrp then
+                        -- Middle point
+                        hrp.CFrame = CFrame.new(4696.713379, 461.226349, 10086.693359, 0.928857, 0.000000, 0.370439, 0.046484, 0.992096, -0.116556, -0.367511, 0.125483, 0.921515)
+                        task.wait(0.5)
+                        if not flyorb then break end
+
+                        -- Point A
+                        hrp.CFrame = CFrame.new(4832.476562, 433.836395, 10244.427734, -0.931023, 0.000000, 0.364960, 0.198244, 0.839607, 0.505726, -0.306423, 0.543194, -0.781694)
+                        task.wait(0.5)
+                        if not flyorb then break end
+
+                        -- Point B
+                        hrp.CFrame = CFrame.new(4832.383301, 459.773834, 9881.908203, 0.999768, 0.000000, 0.021559, 0.011710, 0.839607, -0.543068, -0.018101, 0.543194, 0.839412)
+                        task.wait(0.5)
+                    else
+                        task.wait(0.5) -- character not ready, retry
+                    end
+                end
+            end)
+        end
+    end,
+})
+local folder = workspace:WaitForChild("SystemObjects"):WaitForChild("CelestialEvent2026")
+local orbConnection = nil
+
+local function fireOrb(child)
+    if child.Name == "FlyingOrb" then
+        local touchInterest = child:WaitForChild("TouchInterest", 5)
+        if touchInterest then
+            firetouchinterest(child, game.Players.LocalPlayer.Character.HumanoidRootPart, 0)
+            task.wait(0.1)
+            firetouchinterest(child, game.Players.LocalPlayer.Character.HumanoidRootPart, 1)
+        end
+    end
+end
+
+Event9999:Toggle({
+    Title = "Auto Fly ORb V2",
+    Desc = "Better ",
+    Value = false,
+    Callback = function(v)
+        if v then
+            -- Handle if already exists
+            local existing = folder:FindFirstChild("FlyingOrb")
+            if existing then fireOrb(existing) end
+
+            -- Handle future spawns
+            orbConnection = folder.ChildAdded:Connect(fireOrb)
+        else
+            if orbConnection then
+                orbConnection:Disconnect()
+                orbConnection = nil
+            end
+        end
+    end,
+})
+-------------------------------------------------------------
+--          CRAFT SECTION
+-------------------------------------------------------------
+
+-- Toggle: auto crafts the Boss 1 pet using ID 717 in a loop
+Event9999:Toggle({
+    Title = "Auto Craft Boss 1 Pet",
+    Desc = "Automatically crafts the Boss 1 event pet (ID 717) repeatedly. Useful when you have many pieces.",
+    Value = false,
+    Callback = function(v)
+        Craft = v
+        if Craft then
+            task.spawn(function()
+                while Craft do
+                    CraftEventRemote:FireServer("717", 5)
+                    task.wait()
+                    if not Craft then break end
+                end
+            end)
+        end
+    end,
+})
+
+Event9999:Toggle({
+    Title = "Auto Craft Boss 3 Pet 1 ",
+    Desc = "Automatically crafts the Boss 3 event pet (ID 719) repeatedly. Useful when you have many pieces.",
+    Value = false,
+    Callback = function(v)
+        Craft2 = v
+        if Craft2 then
+            task.spawn(function()
+                while Craft2 do
+                    CraftEventRemote:FireServer("719", 5)
+                    task.wait()
+                    if not Craft2 then break end
+                end
+            end)
+        end
+    end,
+})
+Event9999:Toggle({
+    Title = "Auto Craft Boss 3 Pet 2",
+    Desc = "Automatically crafts the Boss 3 event pet (ID 720) repeatedly. Useful when you have many pieces.",
+    Value = false,
+    Callback = function(v)
+        Craft3 = v
+        if Craft3 then
+            task.spawn(function()
+                while Craft3 do
+                    CraftEventRemote:FireServer("720", 5)
+                    task.wait()
+                    if not Craft3 then break end
+                end
+            end)
+        end
+    end,
+})
+
+-------------------------------------------------------------
+Event9999:Button({
+    Title = "Merchant Spawn Point",
+    Desc = "Teleport To Merchant ",
+    Icon = "mouse-pointer-click",
+    Callback = function()
+        local hrp = GetHRP()
+        hrp.CFrame = workspace.SystemObjects.CelestialEvent2026.MerchantSpawnPoint.Part:GetPivot()
+    end,
+})
+-------------------------------------------------------------
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function GetHRP()
+    local char = Players.LocalPlayer.Character
+    if not char then return nil end
+    return char:FindFirstChild("HumanoidRootPart")
+end
+
+local function getNearEgg(maxRange) 
+    local closest = nil 
+    local closestdist = math.huge
+    local hrp = GetHRP()
+    
+    -- ✅ Prevent crash during respawn/loading
+    if not hrp then return nil end
+
+    for _, v in ipairs(workspace.Eggs:GetChildren()) do 
+        -- ✅ Models don't have .Position. Use PrimaryPart instead:
+        local pos = v:IsA("Model") and v.PrimaryPart and v.PrimaryPart.Position or v.Position
+        if pos then
+            local dist = (hrp.Position - pos).Magnitude
+            if dist < closestdist and (not maxRange or dist <= maxRange) then 
+                closestdist = dist 
+                closest = v 
+            end
+        end
+    end
+    
+    -- 🔴 CRITICAL FIX: You forgot to return the result!
+    return closest
+end
+
+-- Your exact remote path (kept as requested)
+local egg_remote = ReplicatedStorage:WaitForChild("GameClient")
+    :WaitForChild("Events")
+    :WaitForChild("RemoteFunction")
+    :WaitForChild("BuyEgg")
+
+local egg = false
+PullASword:Toggle({
+    Title = "Auto Nearest Egg",
+    Desc = "Optional description",
+    Value = false,
+    Callback = function(v)
+        egg = v 
+        if egg then 
+            task.spawn(function()
+                while egg do 
+                    local nearest_egg = getNearEgg()
+                    
+                    -- ✅ Safety check: skip if no egg is nearby
+                    if nearest_egg then
+                        local nearegg_name = nearest_egg.Name
+                        
+                        -- ✅ pcall prevents your UI from freezing if server rejects the call
+                        pcall(function()
+                            egg_remote:InvokeServer(nearegg_name, "Buy1")
+                        end)
+                    end
+                    
+                    task.wait(0.0001) 
+                end
+            end)
+        end
+    end,
+})
