@@ -1,5 +1,9 @@
-## Note
-- [ColorPicker]( 🎨 ColorPicker) is not Included in the Examples Due to it Being Bugged 
-
-
-- The Keybind isn't Included Cuz i Didn't Feel Like it 
+**BOLD**
+*italic*
+_italhshsic_
+__Bold__
+## List
+- [ sg]
++ [sg ]
+- ysys
++ suusus
