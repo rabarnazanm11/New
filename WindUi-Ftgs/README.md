@@ -17,7 +17,7 @@
 - [Elements](#elements)
   - [Button](#button)
   - [Toggle](#toggle)
-  - [Slider](#slider)
+   - [Slider](#slider)
   - [Input](#input)
   - [Dropdown](#dropdown)
   - [Paragraph](#paragraph)
