@@ -14,5 +14,5 @@ __Bold__ `hiii`
 --- 
   > yoo
 ---
-|hi|-|in|
+| hi | - | in |
 
