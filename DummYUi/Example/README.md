@@ -1,5 +1,5 @@
 ## Note
-- [ColorPicker]( 🎨 ColorPicker)
-- The Keybind
-are not Included in the Examples
-The color picker is Bugged
+- [ColorPicker]( 🎨 ColorPicker) is not Included in the Examples Due to it Being Bugged 
+
+
+- The Keybind isn't Included Cuz i Didn't Feel Like it 
