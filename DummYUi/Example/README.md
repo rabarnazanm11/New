@@ -1,3 +1,9 @@
+
+| Tool Name | Use Case | Rating |
+| :--- | :--- | :--- |
+| ACode | Mobile Coding | ⭐⭐⭐⭐⭐ |
+| Termux | Terminal Emulator | ⭐⭐⭐⭐ |
+| Godot | Game Development | ⭐⭐⭐⭐⭐ |
 **BOLD**
 *italic*
 _italhshsic_
