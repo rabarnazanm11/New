@@ -1,4 +1,24 @@
 Window:Divider()
+local colorz = {
+
+  
+["DarkBlue"] = Color3.fromRGB(23,33,152),
+["Cyan"] = Color3.fromRGB(68,229,246),
+["Red"] = Color3.fromRGB(246,68,68),
+["Purple ish"] = Color3.fromRGB(138,68,246),
+["Green"] = Color3.fromRGB(31,212,25),
+["Gray"] = Color3.fromRGB(112,112,112),
+["Black ish"] = Color3.fromRGB(23,23,23),
+}
+--[[
+colorz["DarkBlue"]
+colorz["Cyan"]
+colorz["Red"]
+colorz["Purple ish"]
+colorz["Green"]
+colorz["Gray"]
+colorz["Black ish"]
+]]
   --                                                                  or "rbxassetid://"                    "Square" or "Circle"                                                                    Left , Center , Right
 local SettingsTab = Window:Tab({Title = "Settings",Desc = "Change Themes",Icon = "bolt",IconThemed = false,Locked = false,ShowTabTitle = true,Border = true,TabTitleAlign = "Left",CustomEmptyPage = {Title = "This is a cool empty tab",Desc = "I like it. its so great tab with cool 'custom empty page'",Icon = "lucide:smile",},})
 
