@@ -1640,100 +1640,42 @@ local Toggle = SettingsTab:Toggle({
 })
 -- =====================================================
 local Forge_Swords_Paragraph = SettingsTab:Paragraph({
-    Title = "Paragraph with Image, Thumbnail, Buttons",
-    Desc = "Test Paragraph",
-    Color = "Red",
-    Image = "",
-    ImageSize = 30,
-    Thumbnail = "",
-    ThumbnailSize = 80,
-    Locked = false,
-    Buttons = {
-        {
-            Icon = "bird",
-            Title = "Button",
-            Callback = function() print("1 Button") end,
-        }
-    }
+    Title = "Sword Forge",
+    Desc = "Select From Dropdown ",
+    Color = Color3.fromRGB(102,102,102),
+    
 })
 
-local Selected_Option = {}
+local v = "--"
 local Dropdown = SettingsTab:Dropdown({
     Title = "Dropdown (Multi)",
     Values = { "Sand Dagger","Fire Dagger","Commander Sword","Shadow Sword", },
     Value = {"Sand Dagger"},
-    Multi = true,
+    Multi = false,
     MenuWidth = 180,
     AllowNone = true,
     SearchBarEnabled = true, -- or false
     Callback = function(option) 
-      Selected_Option = option
-      for _, v in ipairs(Selected_Option) do 
-        if Selected_Option == "Sand Dagger" then
-          Forge_Swords_Paragraph:SetTitle("Sand Dagger")
-          Forge_Swords_Paragraph:SetDesc("Blue Ore × 125 \nYellow Ore × 75 \nGreen Ore × 100\n Architect Token × 100")
-        elseif Selected_Option == "Fire Dagger" then 
-          Forge_Swords_Paragraph:SetTitle("Fire Dagger")
-          Forge_Swords_Paragraph:SetDesc("Red Ore × 200 \nYellow Ore × 125 \nOrange Ore × 100\n Architect Token × 250")
-        elseif Selected_Option == "Commander Sword" then 
-          Forge_Swords_Paragraph:SetTitle("Commander Sword")
-          Forge_Swords_Paragraph:SetDesc("Red Ore × 100 \nYellow Ore × 200 \nOrange Ore × 250 \n Architect Token × 750")
-          
-        elseif Selected_Option == "Shadow Sword" then 
-          Forge_Swords_Paragraph:SetTitle("Shadow Sword")
-          Forge_Swords_Paragraph:SetDesc("Red Ore × 175 \nBlue Ore × 350 \nPurple Ore × 250 \nArchitect Token × 2,000")
-          
-          end 
+    v = option
+    
+        if v == "Sand Dagger" then
+            Forge_Swords_Paragraph:SetTitle("Sand Dagger")
+            Forge_Swords_Paragraph:SetDesc("Blue Ore × 125\nYellow Ore × 75\nGreen Ore × 100\nArchitect Token × 100")
+        elseif v == "Fire Dagger" then 
+            Forge_Swords_Paragraph:SetTitle("Fire Dagger")
+            Forge_Swords_Paragraph:SetDesc("Red Ore × 200\nYellow Ore × 125\nOrange Ore × 100\nArchitect Token × 250")
+        elseif v == "Commander Sword" then 
+            Forge_Swords_Paragraph:SetTitle("Commander Sword")
+            Forge_Swords_Paragraph:SetDesc("Red Ore × 100\nYellow Ore × 200\nOrange Ore × 250\nArchitect Token × 750")
+        elseif v == "Shadow Sword" then 
+            Forge_Swords_Paragraph:SetTitle("Shadow Sword")
+            Forge_Swords_Paragraph:SetDesc("Red Ore × 175\nBlue Ore × 350\nPurple Ore × 250\nArchitect Token × 2,000")
         end 
-        -- option is a table: { "Category A", "Category B" }
-        print("Categories selected: " .. game:GetService("HttpService"):JSONEncode(option)) 
-    end
+    print("Categories selected: " .. game:GetService("HttpService"):JSONEncode(option)) 
+end
 })
 
 
-
---[[
-Sand Dagger
-Blue Ore × 125
-Yellow Ore × 75
-Green Ore × 100
-Architect Token × 100
-
-
-Fire Dagger
-Red Ore × 200 
-Yellow Ore × 125
-Orange Ore × 100
-Architect Token × 250
-
-
-
-
-
-
-Commander Sword
-Red Ore × 100
-Yellow Ore × 200
-Orange Ore × 250
-Architect Token × 750
-
-
-
-
-
-
-
-
-Shadow Sword
-Red Ore × 175
-Blue Ore × 350
-Purple Ore × 250
-Architect Token × 2,000
-
-
-Red Ore × 175 \nBlue Ore × 350 \nPurple Ore × 250 \nArchitect Token × 2,000
-
-]]
 -- =====================================================
 WindUI:Notify({Title = "World Fighters", Content = "Script loaded!", Duration = 3, Icon = "info"})
 
