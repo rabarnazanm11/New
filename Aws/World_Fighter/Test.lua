@@ -1735,7 +1735,7 @@ local Workspace = game:GetService("Workspace")
 local BOSS_LIST = {"Sakana", "Yuje", "Satoro"}
 
 -- State
-local Selected_Global_Boss = "Satoro"
+local Selected_Global_Boss = "All"
 local TeleportToggle_On = false
 local ServerHopToggle_On = false
 local HeartbeatConn = nil
@@ -1828,7 +1828,7 @@ end)
 local Global_Boss_Dropdown = SettingsTab:Dropdown({
     Title = "Select Boss",
     Values = {"Sakana", "Yuje", "Satoro", "All"},
-    Value = "Satoro",
+    Value = "All",
     AllowNone = false,
     SearchBarEnabled = true,
     Multi = false,
