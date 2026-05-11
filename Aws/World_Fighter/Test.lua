@@ -1867,8 +1867,16 @@ local TeleportToggle = SettingsTab:Toggle({
 
         if not TeleportToggle_On then return end
 
-        HeartbeatConn = RunService.Heartbeat:Connect(function()
+        local scanTimer = 0
+        local SCAN_INTERVAL = 1 -- only scan once per second
+
+        HeartbeatConn = RunService.Heartbeat:Connect(function(dt)
             if not TeleportToggle_On then return end
+
+            scanTimer = scanTimer + dt
+            if scanTimer < SCAN_INTERVAL then return end -- skip frames
+            scanTimer = 0
+
             local hrp = PlayerHrp()
             if not hrp then return end
 
@@ -1879,7 +1887,6 @@ local TeleportToggle = SettingsTab:Toggle({
         end)
     end
 })
-
 local ServerHopToggle = SettingsTab:Toggle({
     Title = "Server Hop for Boss",
     Desc = "Hops servers until it finds the selected boss",
