@@ -1724,15 +1724,20 @@ SettingsTab:Button({
 })
 -- =====================================================
 
+
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Workspace = game:GetService("Workspace")
 
+-- Config
+local BOSS_LIST = {"Sakana", "Yuje", "Satoro"}
+
 -- State
 local Selected_Global_Boss = "Satoro"
-local Toggle_On = false
+local TeleportToggle_On = false
+local ServerHopToggle_On = false
 local HeartbeatConn = nil
 local HopDelay = 5
 local serverQueue = {}
@@ -1751,39 +1756,46 @@ local function FindBoss(name)
             local humanoid = v:FindFirstChildOfClass("Humanoid")
             local part = v.PrimaryPart or v:FindFirstChild("HumanoidRootPart")
             if humanoid and humanoid.Health > 0 and part then
-                return part
+                return part, v.Name
             end
         end
     end
-    return nil
+    return nil, nil
 end
 
--- Fetch a fresh list of servers from Roblox API
+local function SearchBoss()
+    if Selected_Global_Boss == "All" then
+        for _, name in pairs(BOSS_LIST) do
+            local part, foundName = FindBoss(name)
+            if part then return part, foundName end
+        end
+        return nil, nil
+    else
+        return FindBoss(Selected_Global_Boss)
+    end
+end
+
+-- Server list
 local function FetchServers()
     local url = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?limit=100"
-    local ok, result = pcall(function()
-        return game:HttpGet(url)
-    end)
-    if not ok then warn("Failed to fetch servers:", result) return end
+    local ok, result = pcall(function() return game:HttpGet(url) end)
+    if not ok then warn("Failed to fetch servers") return end
 
     local data = HttpService:JSONDecode(result)
     serverQueue = {}
     currentIndex = 1
 
     for _, server in pairs(data.data) do
-        -- Only queue servers that aren't completely full
         if server.playing < server.maxPlayers then
             table.insert(serverQueue, server.id)
         end
     end
 
-    warn("Found " .. #serverQueue .. " available servers.")
+    warn("Fetched " .. #serverQueue .. " servers.")
 end
 
--- Hop to the next server in the queue
 local function HopToNextServer()
     if currentIndex > #serverQueue then
-        warn("Ran out of servers, fetching new list...")
         FetchServers()
     end
 
@@ -1791,27 +1803,42 @@ local function HopToNextServer()
     currentIndex = currentIndex + 1
 
     if jobId then
-        warn("Hopping to server: " .. jobId)
+        warn("Hopping to: " .. jobId)
         TeleportService:TeleportToPlaceInstance(game.PlaceId, jobId, Players.LocalPlayer)
     end
 end
 
--- On every new server join, immediately check for boss
+-- On new server join: check boss, hop if not found
 Players.LocalPlayer.CharacterAdded:Connect(function()
-    task.wait(3) -- let the server load
-    if not Toggle_On then return end
+    task.wait(3)
+    if not ServerHopToggle_On then return end
 
-    local bossPart = FindBoss(Selected_Global_Boss)
+    local bossPart, bossName = SearchBoss()
     if bossPart then
-        warn("Boss found! Staying on this server.")
+        warn("Boss found: " .. bossName .. " — staying!")
     else
-        warn("Boss not here. Moving to next server...")
+        warn("Boss not here, hopping...")
         task.wait(1)
         HopToNextServer()
     end
 end)
 
--- UI
+-- ==================== UI ====================
+
+local Global_Boss_Dropdown = SettingsTab:Dropdown({
+    Title = "Select Boss",
+    Values = {"Sakana", "Yuje", "Satoro", "All"},
+    Value = "Satoro",
+    AllowNone = false,
+    SearchBarEnabled = true,
+    Multi = false,
+    Locked = false,
+    Flag = "Boss_dropdown",
+    Callback = function(selected)
+        Selected_Global_Boss = selected
+    end
+})
+
 local Slider = SettingsTab:Slider({
     Title = "Hop Delay (seconds)",
     Desc = "Wait time before hopping if boss not found",
@@ -1827,54 +1854,67 @@ local Slider = SettingsTab:Slider({
     end
 })
 
-local Global_Boss_Dropdown = SettingsTab:Dropdown({
-    Title = "Select Boss",
-    Values = {"Sakana", "Yuje", "Satoro"},
-    Value = "Satoro",
-    AllowNone = false,
-    SearchBarEnabled = true,
-    Multi = false,
-    Locked = false,
-    Flag = "Themes_dropdown",
-    Callback = function(selected)
-        Selected_Global_Boss = selected
-    end
-})
-
-local Toggle = SettingsTab:Toggle({
-    Title = "Auto Teleport Boss",
+local TeleportToggle = SettingsTab:Toggle({
+    Title = "Auto Teleport to Boss",
+    Desc = "Keeps teleporting you to the boss on this server",
     Callback = function(state)
-        Toggle_On = state
+        TeleportToggle_On = state
 
         if HeartbeatConn then
             HeartbeatConn:Disconnect()
             HeartbeatConn = nil
         end
 
-        if not Toggle_On then return end
+        if not TeleportToggle_On then return end
 
-        -- Fetch server list on first enable
+        HeartbeatConn = RunService.Heartbeat:Connect(function()
+            if not TeleportToggle_On then return end
+            local hrp = PlayerHrp()
+            if not hrp then return end
+
+            local bossPart = SearchBoss()
+            if bossPart then
+                hrp.CFrame = bossPart.CFrame + Vector3.new(0, 3, 0)
+            end
+        end)
+    end
+})
+
+local ServerHopToggle = SettingsTab:Toggle({
+    Title = "Server Hop for Boss",
+    Desc = "Hops servers until it finds the selected boss",
+    Callback = function(state)
+        ServerHopToggle_On = state
+
+        if not ServerHopToggle_On then return end
+
         FetchServers()
+
+        -- Check current server first
+        local bossPart, bossName = SearchBoss()
+        if bossPart then
+            warn("Boss already here: " .. bossName)
+            return
+        end
 
         local hopCooldown = false
         local notFoundTimer = 0
 
+        if HeartbeatConn then HeartbeatConn:Disconnect() end
         HeartbeatConn = RunService.Heartbeat:Connect(function(dt)
-            if not Toggle_On then return end
-            local hrp = PlayerHrp()
-            if not hrp then return end
+            if not ServerHopToggle_On then return end
 
-            local bossPart = FindBoss(Selected_Global_Boss)
-            if bossPart then
-                hrp.CFrame = bossPart.CFrame + Vector3.new(0, 3, 0)
-                notFoundTimer = 0
-            else
-                notFoundTimer = notFoundTimer + dt
-                if notFoundTimer >= HopDelay and not hopCooldown then
-                    hopCooldown = true
-                    warn("Boss not found after " .. HopDelay .. "s. Hopping...")
-                    task.delay(1, HopToNextServer)
-                end
+            local part = SearchBoss()
+            if part then
+                hopCooldown = true
+                return
+            end
+
+            notFoundTimer = notFoundTimer + dt
+            if notFoundTimer >= HopDelay and not hopCooldown then
+                hopCooldown = true
+                warn("Hopping after " .. HopDelay .. "s...")
+                task.delay(1, HopToNextServer)
             end
         end)
     end
