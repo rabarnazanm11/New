@@ -55,6 +55,8 @@ local MarineFortressLocations = {
     ["Marine Fortress"]                  = CFrame.new(11757.931641, -11.113531, -23234.021484, 0.933668, 0.000000, -0.358140, -0.000000, 1.000000, 0.000000, 0.358140, -0.000000, 0.933668),
 }
 local Codes = {
+    "UPDATE3PT2",
+"!9MILLIONVISITSTYSM!",
     -- Update 3
     "UPDATE3",
     "!!8MILLIONVISITS!!",
