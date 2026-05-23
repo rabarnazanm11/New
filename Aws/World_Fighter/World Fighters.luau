@@ -187,8 +187,8 @@ local function GetPlayerArea()
     return cache and cache:FindFirstChild("PlayerArea")
 end
 
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-
+local _version = "1.6.64-fix"
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. _version .. "/main.lua"))() 
 -- =====================================================
 --               WINDOW SETUP
 -- =====================================================
