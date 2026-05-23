@@ -693,6 +693,183 @@ Main_Tab:Toggle({
         end
     end
 })
+-- =====================================================
+--               GAMEMODE FEATURES (Add to Main Tab)
+-- =====================================================
 
+-- ── Wave Helper Functions ─────────────────────────────
+local function getTempestWave()
+    local ok, result = pcall(function()
+        return LocalPlayer.PlayerGui.UI.HUD.Gamemodes["Tempest Invasion"].Main.Wave.Value
+    end)
+    return ok and result or nil
+end
+
+local function getTowerWave()
+    local ok, result = pcall(function()
+        return LocalPlayer.PlayerGui.UI.HUD.Gamemodes.Tower.Main.Wave.Value
+    end)
+    return ok and result or nil
+end
+
+-- ── Remote Args ───────────────────────────────────────
+local function tempestJoinArgs()  return {{{"General","Gamemodes","Join","Tempest Invasion", n=4}, "\002"}} end
+local function tempestLeaveArgs() return {{{"General","Gamemodes","Leave","Tempest Invasion", n=4}, "\002"}} end
+local function towerJoinArgs()    return {{{"General","Gamemodes","Join","Tower", n=4}, "\002"}} end
+local function towerLeaveArgs()   return {{{"General","Gamemodes","Leave","Tower", n=4}, "\002"}} end
+
+-- ── Gamemode Section ──────────────────────────────────
+local GamemodeSection = Main_Tab:Section({
+    Title = "Gamemodes",
+    Icon = "swords",
+    Box = true, BoxBorder = true, Opened = false,
+    FontWeight = Enum.FontWeight.ExtraBold,
+    DescFontWeight = Enum.FontWeight.Light,
+    TextSize = 18, DescTextSize = 14,
+})
+
+-- ===== TEMPEST INVASION =====
+local TempestSubSection = GamemodeSection:Section({
+    Title = "Tempest Invasion",
+    Icon = "cloud-lightning",
+    Box = true, BoxBorder = true, Opened = false,
+    FontWeight = Enum.FontWeight.SemiBold,
+    TextSize = 16,
+})
+
+local tempestWaveToLeave = 27
+TempestSubSection:Input({
+    Title = "Leave At Wave",
+    Desc = "Auto-leave when this wave is reached",
+    Type = "Input", Placeholder = "27", Value = "",
+    InputIcon = "hash", ClearTextOnFocus = false, Width = 150,    Callback = function(text) tempestWaveToLeave = tonumber(text) or tempestWaveToLeave end,
+})
+
+local tempestAutoJoin = false
+TempestSubSection:Toggle({
+    Title = "Auto Join",
+    Desc = "Automatically join Tempest Invasion",
+    Value = false, Type = "Toggle", Icon = "log-in",
+    Callback = function(state)
+        tempestAutoJoin = state
+        if tempestAutoJoin then task.spawn(function()
+            FireRemote(tempestJoinArgs())
+            while tempestAutoJoin do
+                task.wait(1)
+                local w = getTempestWave()
+                local targetText = tostring(tempestWaveToLeave) .. " / 100"
+                if w and w.Text == targetText then
+                    task.wait(2)
+                    while tempestAutoJoin do
+                        local w2 = getTempestWave()
+                        if not w2 or w2.Text ~= targetText then
+                            if w2 and w2.Text == "1 / 100" then
+                                task.wait(5)
+                                local w3 = getTempestWave()
+                                if w3 and w3.Text == "1 / 100" then FireRemote(tempestJoinArgs()) end
+                            end
+                            break
+                        end
+                        FireRemote(tempestJoinArgs())
+                        task.wait(2)
+                    end
+                end
+            end
+        end) end
+    end
+})
+
+local tempestLeaveAtWave = false
+TempestSubSection:Toggle({
+    Title = "Leave At Wave",
+    Desc = "Auto-leave when target wave is reached",
+    Value = false, Type = "Toggle", Icon = "log-out",
+    Callback = function(state)
+        tempestLeaveAtWave = state
+        if tempestLeaveAtWave then task.spawn(function()
+            while tempestLeaveAtWave do
+                task.wait(1)
+                local w = getTempestWave()
+                if w and w.Text == tostring(tempestWaveToLeave) .. " / 100" then
+                    FireRemote(tempestLeaveArgs())                    task.wait(5)
+                end
+            end
+        end) end
+    end
+})
+
+-- ===== TOWER =====
+local TowerSubSection = GamemodeSection:Section({
+    Title = "Tower",
+    Icon = "tower-control",
+    Box = true, BoxBorder = true, Opened = false,
+    FontWeight = Enum.FontWeight.SemiBold,
+    TextSize = 16,
+})
+
+local towerWaveToLeave = 27
+TowerSubSection:Input({
+    Title = "Leave At Wave",
+    Desc = "Auto-leave when this wave is reached",
+    Type = "Input", Placeholder = "27", Value = "",
+    InputIcon = "hash", ClearTextOnFocus = false, Width = 150,
+    Callback = function(text) towerWaveToLeave = tonumber(text) or towerWaveToLeave end,
+})
+
+local towerAutoJoin = false
+TowerSubSection:Toggle({
+    Title = "Auto Join",
+    Desc = "Automatically join Tower gamemode",
+    Value = false, Type = "Toggle", Icon = "log-in",
+    Callback = function(state)
+        towerAutoJoin = state
+        if towerAutoJoin then task.spawn(function()
+            FireRemote(towerJoinArgs())
+            while towerAutoJoin do
+                task.wait(1)
+                local w = getTowerWave()
+                local atTarget = w and tostring(w.Text):match("^" .. tostring(towerWaveToLeave) .. "%D")
+                if atTarget then
+                    task.wait(2)
+                    while towerAutoJoin do
+                        local w2 = getTowerWave()
+                        local stillAtTarget = w2 and tostring(w2.Text):match("^" .. tostring(towerWaveToLeave) .. "%D")
+                        if not stillAtTarget then
+                            local atWave1 = w2 and tostring(w2.Text):match("^1%D")
+                            if atWave1 then
+                                task.wait(5)
+                                local w3 = getTowerWave()
+                                if w3 and tostring(w3.Text):match("^1%D") then FireRemote(towerJoinArgs()) end
+                            end                            break
+                        end
+                        FireRemote(towerJoinArgs())
+                        task.wait(2)
+                    end
+                end
+            end
+        end) end
+    end
+})
+
+local towerLeaveAtWave = false
+TowerSubSection:Toggle({
+    Title = "Leave At Wave",
+    Desc = "Auto-leave when target wave is reached",
+    Value = false, Type = "Toggle", Icon = "log-out",
+    Callback = function(state)
+        towerLeaveAtWave = state
+        if towerLeaveAtWave then task.spawn(function()
+            while towerLeaveAtWave do
+                task.wait(1)
+                local w = getTowerWave()
+                local atTarget = w and tostring(w.Text):match("^" .. tostring(towerWaveToLeave) .. "%D")
+                if atTarget then
+                    FireRemote(towerLeaveArgs())
+                    task.wait(5)
+                end
+            end
+        end) end
+    end
+})
 -- =====================================================
 WindUI:Notify({Title = "World Fighters", Content = "Script loaded!", Duration = 3, Icon = "info"})
