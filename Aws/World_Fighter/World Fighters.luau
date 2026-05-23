@@ -187,9 +187,9 @@ local function GetPlayerArea()
     return cache and cache:FindFirstChild("PlayerArea")
 end
 
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
-WindUI:SetNotificationLower(true)
--- DO NOT call WindUI:SetFont() at all, remove that line entirely
+local Version = "1.6.63" -- static version.
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/download/" .. Version .. "/main.lua"))()
+
 -- =====================================================
 --               WINDOW SETUP
 -- =====================================================
