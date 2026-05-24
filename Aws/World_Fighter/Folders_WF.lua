@@ -35,6 +35,8 @@ local EnemyFolderPaths = {
     {"Server", "Enemies", "World", "Hollow Verse", "1"},
     {"Server", "Enemies", "World", "Hollow Verse", "2"},
     {"Server", "Enemies", "World", "Bizarre Verse", "1"},
+     {"Server", "Enemies", "World", "Ghoul Verse", "1"},  
+         {"Server", "Enemies", "World", "Ghoul Arena", "1"},
 }
 
 -- =====================================================
