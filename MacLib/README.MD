@@ -1,4 +1,4 @@
-[Loadstring] "Loadstring"
+[Loadstring] (#Loadstring)
 
 
 > **Loadstring**
