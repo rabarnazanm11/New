@@ -49,13 +49,13 @@ local Tab = TabGroup:Tab({
 ---
 **Sections** Are where you put the **Elements** Such as **Button** etc 
 ```luau
-local MainSection = Tab:Section({
+local Section = Tab:Section({
   Side = "Left" --  <string: "Left", "Right">
 })
 ```
 > Button
 ```luau
-MainSection:Button({
+Section:Button({
 	Name = "Click_me",
 	Callback = function()
 		print("You_Clicked.")
