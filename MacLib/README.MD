@@ -1,5 +1,3 @@
-[Notification Functions](#Notification Functions)
-
 
 > **Loadstring**
 ```luau
@@ -31,10 +29,25 @@ Window:Notify({Title = "Kuzu Hub",Description = "Hello, World!",Lifetime = 5})
     Callback <function(): void>
     --]]
 ```
-# Notification Functions
+> Notification Functions
 ```luau
 :UpdateTitle(<string>)
 :UpdateDescription(<string>)
 :Resize(<number>) -- Only X, Y is automatically determined by the content size
 :Cancel()
+```
+> Tab 
+```luau
+local TabGroup = Window:TabGroup()
+
+local Tab = TabGroup:Tab({
+  Name = "Hi", --  <string>
+  Image = "rbxassetid://18287",   -- <string> -- Image can be at maximum 16 pixels wide and 16 pixels tall.
+})
+```
+[-] Section 
+```luau
+local Section = Tab:Section({
+  Side = "Left" --  <string: "Left", "Right">
+})
 ```
