@@ -69,3 +69,24 @@ Section:Button({
 :SetVisiblity(<boolean>)
 
 ```
+> Input
+```luau
+Section:Input({
+	Name = "Target",
+	Placeholder = "Username",
+	AcceptedCharacters = "All", -- "All", "Numeric", "Alphabetic", "AlphaNumeric"
+	Callback = function(input) -- or onChanged <function(): string> -- Called upon text changed 
+		print("Target set: ".. input)
+	end,
+}, "TargetInput") -- string or nil , this is a flag 
+
+
+```
+> Input Functions
+```luau
+:UpdateName(<string>)
+:SetVisiblity(<boolean>)
+:GetInput(: string)
+:UpdatePlaceholder(<string>)
+:UpdateText(<string>)
+```
