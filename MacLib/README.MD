@@ -31,7 +31,7 @@ Window:Notify({Title = "Kuzu Hub",Description = "Hello, World!",Lifetime = 5})
     Callback <function(): void>
     --]]
 ```
-> Notification Functions
+# Notification Functions
 ```luau
 :UpdateTitle(<string>)
 :UpdateDescription(<string>)
