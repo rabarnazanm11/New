@@ -46,6 +46,7 @@ local Tab = TabGroup:Tab({
 })
 ```
 > Section 
+---
 **Sections** Are where you put the **Elements** Such as **Button** etc 
 ```luau
 local MainSection = Tab:Section({
