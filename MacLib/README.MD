@@ -16,3 +16,15 @@ local Window = MacLib:Window({
 })
 
 ```
+> **Notification**
+```luau
+
+Window:Notify({Title = "Kuzu Hub",Description = "Hello, World!",Lifetime = 5})
+    --[[
+    --optional--
+    Scale <number>
+    SizeX = <number>
+    Style <string: "None", "Confirm", "Cancel"> -- The type of button that the user interacts with, input "None" for no interactable (or leave nil), input "Confirm" for a checkmark, and input "Cancel" for a crossmark.
+    Callback <function(): void>
+    --]]
+```
