@@ -28,3 +28,10 @@ Window:Notify({Title = "Kuzu Hub",Description = "Hello, World!",Lifetime = 5})
     Callback <function(): void>
     --]]
 ```
+> Notification Functions
+```luau
+:UpdateTitle(<string>)
+:UpdateDescription(<string>)
+:Resize(<number>) -- Only X, Y is automatically determined by the content size
+:Cancel()
+```
