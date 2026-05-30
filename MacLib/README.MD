@@ -1,4 +1,4 @@
-[Notification](#Notification)
+[Notification Functions](#Notification Functions)
 
 
 > **Loadstring**
