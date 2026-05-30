@@ -46,8 +46,25 @@ local Tab = TabGroup:Tab({
 })
 ```
 > Section 
+**Sections** Are where you put the **Elements** Such as **Button** etc 
 ```luau
-local Section = Tab:Section({
+local MainSection = Tab:Section({
   Side = "Left" --  <string: "Left", "Right">
 })
+```
+> Button
+```luau
+MainSection:Button({
+	Name = "Click_me",
+	Callback = function()
+		print("You_Clicked.")
+	end,
+})
+
+```
+> Button Functions
+```luau
+:UpdateName(<string>)
+:SetVisiblity(<boolean>)
+
 ```
