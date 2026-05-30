@@ -45,7 +45,7 @@ local Tab = TabGroup:Tab({
   Image = "rbxassetid://18287",   -- <string> -- Image can be at maximum 16 pixels wide and 16 pixels tall.
 })
 ```
-[-] Section 
+[-]  > Section 
 ```luau
 local Section = Tab:Section({
   Side = "Left" --  <string: "Left", "Right">
