@@ -116,3 +116,22 @@ Section:Slider({
 :GetValue(: number)
 
 ```
+> Toggle
+```luau
+Section:Toggle({
+	Name = "Flight",
+	Default = false,
+	Callback = function(value)
+		Window:Notify({Title = "Kuzu Hub",Description = (value and "Enabled " or "Disabled ") .. "Flight"})
+	end,
+}, "FlightToggle") -- flag
+
+```
+> Toggle Functions
+```luau
+:UpdateName(<string>)
+:SetVisiblity(<boolean>)
+:UpdateState(<boolean>)
+:GetState(: boolean)
+
+```
