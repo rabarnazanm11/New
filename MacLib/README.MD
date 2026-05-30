@@ -90,3 +90,29 @@ Section:Input({
 :UpdatePlaceholder(<string>)
 :UpdateText(<string>)
 ```
+> Slider
+```luau
+Section:Slider({
+	Name = "Walkspeed",
+	Default = 16,
+	Minimum = 0,
+	Maximum = 100,
+	DisplayMethod = "Percent", -- "Round", "Degrees", "Percent", "Value"
+	Precision = 1              -- <number>
+	Callback = function(Value) -- Returns Number 
+	 local player = game.Players.LocalPlayer
+	 local Character = player.Character
+	 local Humanoid = Character and Character:FindFirstChild("Humanoid")
+	 Humanoid.WalkSpeed = Value
+	end,
+}, "WalkspeedSlider") -- falg , string or nil 
+
+```
+> Slider Functions 
+```luau
+:UpdateName(<string>)
+:SetVisiblity(<boolean>)
+:UpdateValue(<number>)
+:GetValue(: number)
+
+```
