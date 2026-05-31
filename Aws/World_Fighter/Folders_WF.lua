@@ -1113,7 +1113,7 @@ local ROLLSTab = Window:Tab({Title = "Rolls",Icon = "egg",Locked = false,}) -- I
 
 
 local RollsTable = {}
-for _, v in ipairs(game:GetService("ReplicatedStorage").Omni.Shared.Gacha.Sources:GetChildren()) do 
+for _, v in ipairs(game:GetService("ReplicatedStorage").Omni.Shared.Gacha.Machines:GetChildren()) do 
   if v:IsA("ModuleScript") then 
   table.insert(RollsTable,v.Name)
   end 
