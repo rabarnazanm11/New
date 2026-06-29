@@ -416,7 +416,7 @@ end
 --  🎨 UI  ·  WindUI Boreal Edition
 --═══════════════════════════════════════════════════════════════════════════
 local WindUI = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/orialdev/WindUI-Boreal/main/WindUI%20Boreal"
+    "https://raw.githubusercontent.com/rabarnazanm11/New/refs/heads/main/WindUiBoreal/Source.lua"
 ))()
 
 local Window = WindUI:CreateWindow({
